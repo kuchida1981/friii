@@ -1,0 +1,10 @@
+# Claude Code Rules
+
+Always adhere to the rules defined in `.agent/RULES.md`.
+
+- **Issue-driven**: Every task must be linked to a GitHub Issue. Ask for an issue if not provided.
+- **Draft PRs**: Always create PRs as Drafts.
+- **Issue Linking**: Include "Closes #<ID>" in the PR description.
+- **Todo List**: Include a verification todo list for the user in the PR description.
+- **Language**: Communication with the user should be in Japanese.
+- **Quality**: Strictly follow the coverage requirements defined in `DEVELOPMENT.md`.
