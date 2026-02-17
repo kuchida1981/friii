@@ -4,7 +4,7 @@ repos:
       # Backend checks
       - id: backend-lint
         name: Backend Lint
-        entry: docker compose run --rm backend golangci-lint run ./...
+        entry: docker compose run -T --rm backend golangci-lint run ./...
         language: system
         files: ^backend/.*\.go$
         pass_filenames: false
