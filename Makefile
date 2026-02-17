@@ -14,7 +14,7 @@ test-frontend:
 	cd frontend && npm test
 
 lint-backend:
-	cd backend && golangci-lint run ./...
+	docker compose run --rm backend golangci-lint run ./...
 
 lint-frontend:
 	cd frontend && npm run lint

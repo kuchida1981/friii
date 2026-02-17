@@ -18,4 +18,6 @@
 ## 3. 品質管理
 
 - **テストとカバレッジ**: `DEVELOPMENT.md` に記載されたカバレッジ閾値（Core 100% / Overall 90%）を厳守してください。
-- **OpenSpec**: 機能変更の際は OpenSpec のワークフロー（new -> apply -> verify -> archive）を遵守してください。
+- **OpenSpec**:
+  - 機能変更の際は OpenSpec のワークフロー（new -> apply -> verify -> archive）を遵守してください。
+  - **コミット前チェック (重要)**: `pre-commit` には含まれていないため、全てのコミットの前に、AI エージェントは必ず `openspec validate --strict --all` を手動で実行し、エラーがないことを確認してください。

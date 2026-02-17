@@ -37,6 +37,8 @@ linters-settings:
       - performance
   govet:
     enable-all: true
+    disable:
+      - fieldalignment
 
 issues:
   exclude-rules:

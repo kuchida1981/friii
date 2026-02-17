@@ -1,6 +1,12 @@
-FROM golang:1.24-alpine
+FROM golang:1.25-alpine
 
 RUN apk add --no-cache gcc musl-dev git
+
+# Install golang-migrate
+RUN go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+
+# Install moq
+RUN go install github.com/matryer/moq@latest
 
 COPY --from=golangci/golangci-lint:v1.64.5-alpine /usr/bin/golangci-lint /usr/bin/golangci-lint
 
