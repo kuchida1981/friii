@@ -7,7 +7,7 @@ test-backend:
 # コアロジック(domain, usecase)のカバレッジが100%であることを検証するスクリプト
 coverage-backend: test-backend
 	@echo "Checking core logic coverage..."
-	@cd backend && go tool cover -func=coverage.out | grep -E "internal/domain|internal/usecase" | awk '{if ($$NF != "100.0%") { print "Low coverage in core: " $$0; exit 1 }}'
+	@cd backend && go tool cover -func=coverage.out | grep -E "internal/domain|internal/usecase" | grep -v "_mock.go" | awk '{if ($$NF != "100.0%") { print "Low coverage in core: " $$0; exit 1 }}'
 	@echo "Core logic coverage is 100%!"
 
 test-frontend:
