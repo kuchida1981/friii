@@ -1,0 +1,49 @@
+repos:
+  - repo: local
+    hooks:
+      # Backend checks
+      - id: backend-lint
+        name: Backend Lint
+        entry: docker compose run --rm backend golangci-lint run ./...
+        language: system
+        files: ^backend/.*\.go$
+        pass_filenames: false
+
+      - id: backend-test
+        name: Backend Test (Core 100% Coverage)
+        entry: make coverage-backend
+        language: system
+        files: ^backend/.*\.go$
+        pass_filenames: false
+
+      # Frontend checks
+      - id: frontend-lint
+        name: Frontend Lint
+        entry: bash -c "cd frontend && npm run lint"
+        language: system
+        files: ^frontend/.*\.([tj]sx?|json|css)$
+        pass_filenames: false
+
+      - id: frontend-test
+        name: Frontend Test
+        entry: bash -c "cd frontend && npm test"
+        language: system
+        files: ^frontend/src/.*\.([tj]sx?)$
+        pass_filenames: false
+
+      # OpenSpec Validation (Local)
+      - id: openspec-validate
+        name: OpenSpec Validate
+        entry: npx openspec validate --strict --all
+        language: system
+        files: ^openspec/.*\.md$
+        pass_filenames: false
+
+      # Issue check (Local helper)
+      - id: issue-link-check
+        name: Issue Link Check (Local)
+        entry: |
+          bash -c "git rev-parse --abbrev-ref HEAD | grep -qE '^[0-9]+-|#[0-9]+' || echo 'Warning: Branch name should include an issue number (e.g. 123-feature).'"
+        language: system
+        always_run: true
+        pass_filenames: false

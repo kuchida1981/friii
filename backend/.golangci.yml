@@ -1,0 +1,54 @@
+run:
+  timeout: 5m
+  modules-download-mode: readonly
+
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - revive
+    - gocritic
+    - gofmt
+    - goimports
+    - misspell
+    - nakedret
+    - prealloc
+    - unconvert
+    - unparam
+    - bodyclose
+    - sqlclosecheck
+    - rowserrcheck
+    - noctx
+
+linters-settings:
+  revive:
+    rules:
+      - name: exported
+        disabled: true # 内部パッケージが多いため一旦無効化
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+  govet:
+    enable-all: true
+
+issues:
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - errcheck
+        - gosec
+    - path: internal/interface/graphql/generated/
+      linters:
+        - unused
+        - revive
+        - gocritic
+
+  max-issues-per-linter: 0
+  max-same-issues: 0

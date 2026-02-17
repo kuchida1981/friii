@@ -43,6 +43,41 @@ docker compose run backend go generate ./...
 cd frontend && npm test
 ```
 
+## 品質管理ガイドライン
+
+### ローカルガードレール (pre-commit)
+コミット前に Lint やテストを自動実行するために `pre-commit` を導入しています。
+
+1. **インストール**:
+   ホストマシンに `pre-commit` をインストールします。
+   ```bash
+   pip install pre-commit  # または brew install pre-commit
+   ```
+2. **セットアップ**:
+   プロジェクトルートでフックを有効化します。
+   ```bash
+   pre-commit install
+   ```
+3. **実行**:
+   `git commit` 時に自動で走りますが、手動で全ファイルに実行することも可能です。
+   ```bash
+   pre-commit run --all-files
+   ```
+
+### テストカバレッジの強制
+CI/CD およびローカルチェックにおいて、以下のカバレッジ閾値を設けています。
+- **全体**: 90% 以上
+- **コアロジック (internal/domain, internal/usecase)**: 100%
+
+### CI/CD ガードレール (GitHub Actions)
+プルリクエスト（Draft を除く）に対して以下の自動チェックが走ります。
+- **Backend**: Lint (`golangci-lint`), Unit/Integration Tests, カバレッジ計測。
+- **Frontend**: Lint (`ESLint`), Tests, カバレッジ計測。
+- **Other**: OpenSpec バリデーション, Issue 紐付けチェック, Todo リスト未完了チェック。
+
+これらがパスしない限り、マージすることはできません。
+
 ## AI Agent への指示ガイドライン
 - 新しい機能を実装する際は、まず `domain` にインターフェースを定義し、`moq` でモックを生成してから `usecase` のテストを書くように指示してください。
 - データベース操作は `sqlmock` を用いて正常系・異常系の両方をテストするようにしてください。
+- カバレッジが 100% (Core) / 90% (Overall) を維持しているか確認するように指示してください。

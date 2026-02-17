@@ -2,11 +2,12 @@ name: PR Issue Check
 
 on:
   pull_request:
-    branches: [ master ]
-    types: [opened, edited, synchronize]
+    branches: [ main ]
+    types: [opened, edited, synchronize, reopened, ready_for_review]
 
 jobs:
   check-issue:
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - name: Check PR body and title

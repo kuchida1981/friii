@@ -36,7 +36,10 @@ function App() {
       </div>
       <div style={{ marginTop: '20px', color: '#666' }}>
         <p>Backend URL: http://localhost:8080/query</p>
-        <p>If you see "Loading" forever, check the browser console (F12) for CORS or Network errors.</p>
+        <p>
+          If you see &quot;Loading&quot; forever, check the browser console (F12) for CORS or
+          Network errors.
+        </p>
       </div>
     </div>
   )
