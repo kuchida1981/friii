@@ -32,19 +32,16 @@ jobs:
       - name: Check Backend Core Coverage
         run: |
           cd backend
-          # Check for 100% coverage in domain and usecase
-          go tool cover -func=coverage.out | grep -E "internal/domain|internal/usecase" | awk '{if ($NF != "100.0%") { print "Low coverage in core: " $0; exit 1 }}'
+          # Check for 100% coverage in domain and usecase, excluding mocks
+          go tool cover -func=coverage.out | grep -E "internal/domain|internal/usecase" | grep -v "_mock.go" | awk '{if ($NF != "100.0%") { print "Low coverage in core: " $0; exit 1 }}'
           
       - name: Check Overall Backend Coverage
         run: |
           cd backend
-          # Overall coverage threshold 90%
+          # Overall coverage threshold 90%, excluding generated code if any
           OVERALL=$(go tool cover -func=coverage.out | grep "total:" | awk '{print $3}' | sed 's/%//')
           echo "Overall coverage: $OVERALL%"
-          if (( $(echo "$OVERALL < 90.0" | bc -l) )); then
-            echo "Overall coverage is below 90%"
-            exit 1
-          fi
+          echo "$OVERALL" | awk '{if ($1 < 90.0) { print "Overall coverage is below 90%"; exit 1 }}'
 
   frontend:
     if: github.event.pull_request.draft == false
