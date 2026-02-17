@@ -4,8 +4,10 @@
 package repository
 
 import (
+	"github.com/google/uuid"
 	"github.com/kuchida1981/friii/internal/domain/entity"
 	"sync"
+	"time"
 )
 
 // Ensure, that JournalRepositoryMock does implement JournalRepository.
@@ -18,8 +20,11 @@ var _ JournalRepository = &JournalRepositoryMock{}
 //
 //		// make and configure a mocked JournalRepository
 //		mockedJournalRepository := &JournalRepositoryMock{
-//			FindAllFunc: func() ([]*entity.JournalEntry, error) {
-//				panic("mock out the FindAll method")
+//			FindByIDFunc: func(id uuid.UUID) (*entity.JournalEntry, error) {
+//				panic("mock out the FindByID method")
+//			},
+//			ListFunc: func(from time.Time, to time.Time) ([]*entity.JournalEntry, error) {
+//				panic("mock out the List method")
 //			},
 //			SaveFunc: func(entry *entity.JournalEntry) error {
 //				panic("mock out the Save method")
@@ -31,16 +36,28 @@ var _ JournalRepository = &JournalRepositoryMock{}
 //
 //	}
 type JournalRepositoryMock struct {
-	// FindAllFunc mocks the FindAll method.
-	FindAllFunc func() ([]*entity.JournalEntry, error)
+	// FindByIDFunc mocks the FindByID method.
+	FindByIDFunc func(id uuid.UUID) (*entity.JournalEntry, error)
+
+	// ListFunc mocks the List method.
+	ListFunc func(from time.Time, to time.Time) ([]*entity.JournalEntry, error)
 
 	// SaveFunc mocks the Save method.
 	SaveFunc func(entry *entity.JournalEntry) error
 
 	// calls tracks calls to the methods.
 	calls struct {
-		// FindAll holds details about calls to the FindAll method.
-		FindAll []struct {
+		// FindByID holds details about calls to the FindByID method.
+		FindByID []struct {
+			// ID is the id argument value.
+			ID uuid.UUID
+		}
+		// List holds details about calls to the List method.
+		List []struct {
+			// From is the from argument value.
+			From time.Time
+			// To is the to argument value.
+			To time.Time
 		}
 		// Save holds details about calls to the Save method.
 		Save []struct {
@@ -48,34 +65,76 @@ type JournalRepositoryMock struct {
 			Entry *entity.JournalEntry
 		}
 	}
-	lockFindAll sync.RWMutex
-	lockSave    sync.RWMutex
+	lockFindByID sync.RWMutex
+	lockList     sync.RWMutex
+	lockSave     sync.RWMutex
 }
 
-// FindAll calls FindAllFunc.
-func (mock *JournalRepositoryMock) FindAll() ([]*entity.JournalEntry, error) {
-	if mock.FindAllFunc == nil {
-		panic("JournalRepositoryMock.FindAllFunc: method is nil but JournalRepository.FindAll was just called")
+// FindByID calls FindByIDFunc.
+func (mock *JournalRepositoryMock) FindByID(id uuid.UUID) (*entity.JournalEntry, error) {
+	if mock.FindByIDFunc == nil {
+		panic("JournalRepositoryMock.FindByIDFunc: method is nil but JournalRepository.FindByID was just called")
 	}
 	callInfo := struct {
-	}{}
-	mock.lockFindAll.Lock()
-	mock.calls.FindAll = append(mock.calls.FindAll, callInfo)
-	mock.lockFindAll.Unlock()
-	return mock.FindAllFunc()
+		ID uuid.UUID
+	}{
+		ID: id,
+	}
+	mock.lockFindByID.Lock()
+	mock.calls.FindByID = append(mock.calls.FindByID, callInfo)
+	mock.lockFindByID.Unlock()
+	return mock.FindByIDFunc(id)
 }
 
-// FindAllCalls gets all the calls that were made to FindAll.
+// FindByIDCalls gets all the calls that were made to FindByID.
 // Check the length with:
 //
-//	len(mockedJournalRepository.FindAllCalls())
-func (mock *JournalRepositoryMock) FindAllCalls() []struct {
+//	len(mockedJournalRepository.FindByIDCalls())
+func (mock *JournalRepositoryMock) FindByIDCalls() []struct {
+	ID uuid.UUID
 } {
 	var calls []struct {
+		ID uuid.UUID
 	}
-	mock.lockFindAll.RLock()
-	calls = mock.calls.FindAll
-	mock.lockFindAll.RUnlock()
+	mock.lockFindByID.RLock()
+	calls = mock.calls.FindByID
+	mock.lockFindByID.RUnlock()
+	return calls
+}
+
+// List calls ListFunc.
+func (mock *JournalRepositoryMock) List(from time.Time, to time.Time) ([]*entity.JournalEntry, error) {
+	if mock.ListFunc == nil {
+		panic("JournalRepositoryMock.ListFunc: method is nil but JournalRepository.List was just called")
+	}
+	callInfo := struct {
+		From time.Time
+		To   time.Time
+	}{
+		From: from,
+		To:   to,
+	}
+	mock.lockList.Lock()
+	mock.calls.List = append(mock.calls.List, callInfo)
+	mock.lockList.Unlock()
+	return mock.ListFunc(from, to)
+}
+
+// ListCalls gets all the calls that were made to List.
+// Check the length with:
+//
+//	len(mockedJournalRepository.ListCalls())
+func (mock *JournalRepositoryMock) ListCalls() []struct {
+	From time.Time
+	To   time.Time
+} {
+	var calls []struct {
+		From time.Time
+		To   time.Time
+	}
+	mock.lockList.RLock()
+	calls = mock.calls.List
+	mock.lockList.RUnlock()
 	return calls
 }
 

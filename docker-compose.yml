@@ -10,6 +10,11 @@ services:
       - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d friii"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   backend:
     build:
@@ -20,9 +25,23 @@ services:
     environment:
       DATABASE_URL: postgresql://user:password@db:5432/friii?sslmode=disable
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
       - ./backend:/app
+
+  migrate:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/friii?sslmode=disable
+    command: migrate -path /app/internal/infrastructure/persistence/migrations -database "postgresql://user:password@db:5432/friii?sslmode=disable" up
+    depends_on:
+      db:
+        condition: service_healthy
 
   frontend:
     build:
