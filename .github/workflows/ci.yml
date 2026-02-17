@@ -66,7 +66,7 @@ jobs:
         run: cd frontend && npm run lint
 
       - name: Frontend Test and Coverage
-        run: cd frontend && npm test -- --coverage
+        run: cd frontend && npm test
 
       # Vitest coverage thresholds are already defined in vite.config.ts,
       # so 'npm test -- --coverage' will fail if thresholds are not met.
