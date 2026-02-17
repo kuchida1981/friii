@@ -1,0 +1,21 @@
+{
+  "name": "friii",
+  "version": "1.0.0",
+  "description": "**「エンジニアが、エンジニアのために作る、75万円控除を勝ち取るための会計システム」**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kuchida1981/friii.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kuchida1981/friii/issues"
+  },
+  "homepage": "https://github.com/kuchida1981/friii#readme"
+}
