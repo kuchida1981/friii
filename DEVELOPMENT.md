@@ -6,6 +6,19 @@ docker compose up -d
 ```
 - **Backend**: http://localhost:8080 (GraphQL Playground: http://localhost:8080)
 - **Frontend**: http://localhost:5173
+- **Database**: localhost:5432 (User: user, Pass: password, DB: friii)
+
+## データベース操作 (PostgreSQL)
+
+### DB への直接接続 (psql)
+```bash
+docker compose exec db psql -U user -d friii
+```
+
+### マイグレーション (golang-migrate)
+`docker compose up` 時に自動適用されます。手動操作は以下の通り：
+- **適用 (Up)**: `docker compose run --rm migrate`
+- **新規作成**: `docker compose run --rm backend migrate create -ext sql -dir internal/infrastructure/persistence/migrations -seq <name>`
 
 ## バックエンド開発 (Go)
 
