@@ -1,12 +1,12 @@
 -- Account Categories Initial Data
 INSERT INTO account_categories (id, name, normal_side, report_type) VALUES
-    ('00000000-0000-0000-0000-000000000001', '流動資産', 'DEBIT', 'BS'),
-    ('00000000-0000-0000-0000-000000000002', '固定資産', 'DEBIT', 'BS'),
-    ('00000000-0000-0000-0000-000000000003', '流動負債', 'CREDIT', 'BS'),
-    ('00000000-0000-0000-0000-000000000004', '固定負債', 'CREDIT', 'BS'),
-    ('00000000-0000-0000-0000-000000000005', '純資産', 'CREDIT', 'BS'),
-    ('00000000-0000-0000-0000-000000000006', '売上高', 'CREDIT', 'PL'),
-    ('00000000-0000-0000-0000-000000000007', '売上原価', 'DEBIT', 'PL'),
-    ('00000000-0000-0000-0000-000000000008', '販売費及び一般管理費', 'DEBIT', 'PL'),
-    ('00000000-0000-0000-0000-000000000009', '営業外収益', 'CREDIT', 'PL'),
-    ('00000000-0000-0000-0000-00000000000a', '営業外費用', 'DEBIT', 'PL');
+    (gen_random_uuid(), '流動資産', 'DEBIT', 'BS'),
+    (gen_random_uuid(), '固定資産', 'DEBIT', 'BS'),
+    (gen_random_uuid(), '流動負債', 'CREDIT', 'BS'),
+    (gen_random_uuid(), '固定負債', 'CREDIT', 'BS'),
+    (gen_random_uuid(), '純資産', 'CREDIT', 'BS'),
+    (gen_random_uuid(), '売上高', 'CREDIT', 'PL'),
+    (gen_random_uuid(), '売上原価', 'DEBIT', 'PL'),
+    (gen_random_uuid(), '販売費及び一般管理費', 'DEBIT', 'PL'),
+    (gen_random_uuid(), '営業外収益', 'CREDIT', 'PL'),
+    (gen_random_uuid(), '営業外費用', 'DEBIT', 'PL');
