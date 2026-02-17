@@ -21,7 +21,7 @@ func TestJournalRepository_Save(t *testing.T) {
 
 	// ここでは実際の実装がないため、概念的なテストコードのみ
 	// 実際のリポジトリ関数を呼び出す代わりに、期待値をチェックする
-	assert.NoError(t, nil)
+	t.Skip("TODO: JournalRepository.Save の実装後にテストを追加")
 
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("there were unfulfilled expectations: %s", err)

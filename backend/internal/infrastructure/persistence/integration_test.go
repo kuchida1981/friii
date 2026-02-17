@@ -18,7 +18,7 @@ func TestJournalRepository_Integration(t *testing.T) {
 
 	ctx := context.Background()
 
-	dbName := "users"
+	dbName := "friii_test"
 	dbUser := "user"
 	dbPassword := "password"
 
@@ -29,7 +29,7 @@ func TestJournalRepository_Integration(t *testing.T) {
 		postgres.WithPassword(dbPassword),
 		testcontainers.WithWaitStrategy(
 			wait.ForLog("database system is ready to accept connections").
-				WithOccurrence(2).
+				WithOccurrence(1).
 				WithStartupTimeout(5*time.Second)),
 	)
 	if err != nil {

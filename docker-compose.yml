@@ -23,7 +23,6 @@ services:
       - db
     volumes:
       - ./backend:/app
-      # Air (hot reload) will be configured here later
 
   frontend:
     build:
