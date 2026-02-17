@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestJournalRepository_Save(t *testing.T) {

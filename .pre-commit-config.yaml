@@ -1,0 +1,32 @@
+repos:
+  - repo: local
+    hooks:
+      # Backend checks
+      - id: backend-lint
+        name: Backend Lint
+        entry: docker compose run -T --rm backend golangci-lint run ./...
+        language: system
+        files: ^backend/.*\.go$
+        pass_filenames: false
+
+      - id: backend-test
+        name: Backend Test (Core 100% Coverage)
+        entry: make coverage-backend
+        language: system
+        files: ^backend/.*\.go$
+        pass_filenames: false
+
+      # Frontend checks
+      - id: frontend-lint
+        name: Frontend Lint
+        entry: bash -c "cd frontend && npm run lint"
+        language: system
+        files: ^frontend/.*\.([tj]sx?|json|css)$
+        pass_filenames: false
+
+      - id: frontend-test
+        name: Frontend Test
+        entry: bash -c "cd frontend && npm test"
+        language: system
+        files: ^frontend/src/.*\.([tj]sx?)$
+        pass_filenames: false

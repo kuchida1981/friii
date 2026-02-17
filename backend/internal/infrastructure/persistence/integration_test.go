@@ -38,8 +38,8 @@ func TestJournalRepository_Integration(t *testing.T) {
 
 	// Clean up the container before the test is complete
 	defer func() {
-		if err := postgresContainer.Terminate(ctx); err != nil {
-			t.Fatalf("failed to terminate container: %s", err)
+		if terminateErr := postgresContainer.Terminate(ctx); terminateErr != nil {
+			t.Fatalf("failed to terminate container: %s", terminateErr)
 		}
 	}()
 
